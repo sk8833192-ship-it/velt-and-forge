@@ -247,6 +247,7 @@
   }
   function showDialog(dialog) { if (!dialog.open) dialog.showModal(); }
   function openSummary() {
+    if (paymentTransaction || paymentReceipt) { showDialog($('#summary-dialog')); return; }
     if (!analysis) { toast('Your artwork is still loading. Please try again in a moment.'); return; }
     const configuration = configJSON();
     $('#summary-artwork').textContent = state.artwork;
@@ -254,7 +255,15 @@
     for (const [label, value] of [['Material', materialName()], ['Diameter / relief depth', `${state.size} mm / ≥2.8 mm target`], ['Handle', handleName()], ['Stamp heads', state.extraHead ? '2 custom heads · shared M8 handle (+$49)' : '1 custom head'], ['Target medium', MEDIUMS[state.medium].name], ['Art compensation', `+${state.boldness.toFixed(2)} mm radial · ${state.invert ? 'inverted' : 'original polarity'}`], ['Printability', `${analysis.score}/100 · ${analysis.score >= 90 ? 'workshop review' : 'details need review'}`]]) {
       const row = document.createElement('div'), dt = document.createElement('dt'), dd = document.createElement('dd'); dt.textContent = label; dd.textContent = value; row.append(dt, dd); list.append(row);
     }
-    $('#summary-price').textContent = money(total()); $('#summary-json').textContent = JSON.stringify(configuration, null, 2); showDialog($('#summary-dialog'));
+    $('#summary-price').textContent = money(total()); $('#summary-json').textContent = JSON.stringify(configuration, null, 2);
+    // Keep the same request ID if an ambiguous network failure is retried with
+    // the same reviewed specification; a changed specification is a new attempt.
+    const previousRequestId = reviewedOrder && JSON.stringify(reviewedOrder.configuration) === JSON.stringify(configuration) ? reviewedOrder.requestId : null;
+    const mirroredSvg = buildMirroredSVG(configuration);
+    reviewedOrder = { configuration, mirroredSvg, filename: exportName('svg'), requestId: previousRequestId || newPaymentRequestId(), artworkTooLarge: new Blob([mirroredSvg]).size > 200 * 1024 };
+    $('#checkout-artwork-note').hidden = !reviewedOrder.artworkTooLarge;
+    $('#checkout-artwork-note').textContent = reviewedOrder.artworkTooLarge ? 'Your detailed mirrored proof exceeds the secure upload size. Keep the full download and email your proof with your Order ID to orders@veltandforge.com after payment. The artwork will not be uploaded during checkout.' : '';
+    showDialog($('#summary-dialog')); void prepareCheckout();
   }
   function openExport() {
     flush();
@@ -266,10 +275,13 @@
     const url = URL.createObjectURL(blob), anchor = document.createElement('a'); anchor.href = url; anchor.download = name; document.body.append(anchor); anchor.click(); anchor.remove(); setTimeout(() => URL.revokeObjectURL(url), 15000); toast(`${name} prepared for download.`);
   }
   function exportName(extension) { return `velt-forge-${state.size}mm-${state.material}-mirrored-proof.${extension}`; }
+  function buildMirroredSVG(configuration = configJSON()) {
+    flush(); if (!mask || !analysis || analysis.empty) return '';
+    return StampEngine.mirroredSVG(mask, N, N, configuration.diameterMM, { title: `${configuration.artwork} — ${configuration.diameterMM} mm ${configuration.material.name}`, configuration });
+  }
   function exportSVG() {
-    flush(); if (!mask || analysis.empty) return;
-    const metadata = configJSON();
-    download(new Blob([StampEngine.mirroredSVG(mask, N, N, state.size, { title: `${state.artwork} — ${state.size} mm ${materialName()}`, configuration: metadata })], { type: 'image/svg+xml;charset=utf-8' }), exportName('svg'));
+    const svg = buildMirroredSVG(); if (!svg) return;
+    download(new Blob([svg], { type: 'image/svg+xml;charset=utf-8' }), exportName('svg'));
   }
   function exportPNG() {
     flush(); if (!mask || analysis.empty) return;
@@ -290,6 +302,189 @@
     ctx.fillText('Dimension guides and text are outside the artwork; exclude them from machining.', 190, 2500);
     c.toBlob(blob => { if (blob) download(blob, filename); else toast('PNG export failed. Try the vector SVG export.'); }, 'image/png');
   }
+  // Checkout is an optional enhancement. A local/static proof never needs a server.
+  const PREVIEW_NOTE = 'Online PayPal & Card checkout activates as soon as the store domain goes live. Download your mirrored CNC proof or copy your spec below.';
+  let reviewedOrder = null, paymentTransaction = null, paymentReceipt = null;
+  let paymentConfigPromise = null, paypalSDKPromise = null, paypalMounted = false, checkoutPreparing = false, capturePending = false, paymentReviewRequired = false;
+  function newPaymentRequestId() {
+    if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') return crypto.randomUUID();
+    // This identifies retries, not authorization. No credentials depend on it.
+    return `vf_${Date.now().toString(36)}_${Math.random().toString(36).slice(2)}_${Math.random().toString(36).slice(2)}`;
+  }
+  function checkoutNote(message) { $('#checkout-note').textContent = message; }
+  function checkoutBusy(busy) {
+    $('#checkout-panel').setAttribute('aria-busy', String(busy));
+    $('#stripe-checkout').disabled = busy; $('#checkout-retry-capture').disabled = busy;
+  }
+  async function paymentJSON(url, payload) {
+    const controller = typeof AbortController === 'function' ? new AbortController() : null;
+    const timer = controller ? setTimeout(() => controller.abort(), 30000) : 0;
+    try {
+      const response = await fetch(url, payload ? { method: 'POST', credentials: 'same-origin', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload), ...(controller ? { signal: controller.signal } : {}) } : { credentials: 'same-origin', ...(controller ? { signal: controller.signal } : {}) });
+      if (!/application\/json/i.test(response.headers.get('content-type') || '')) throw new Error('Checkout is temporarily unavailable.');
+      const data = await response.json();
+      if (!data || typeof data !== 'object') throw new Error('Checkout is temporarily unavailable.');
+      if (!response.ok) {
+        const error = new Error('Checkout is temporarily unavailable.');
+        if (url.endsWith('/paypal/capture-order') && [409, 422].includes(response.status) && data.code === 'INSTRUMENT_DECLINED') error.code = data.code;
+        if (url.endsWith('/paypal/create-order') && response.status === 409 && data.code === 'ORDER_REVIEW_REQUIRED') error.code = data.code;
+        throw error;
+      }
+      return data;
+    } finally { clearTimeout(timer); }
+  }
+  function getPaymentConfig() {
+    if (!paymentConfigPromise) paymentConfigPromise = (async () => {
+      if (typeof location === 'undefined' || !/^https?:$/.test(location.protocol) || /(^|\.)github\.io$/i.test(location.hostname) || typeof fetch !== 'function') return null;
+      try {
+        const data = await paymentJSON('../api/payment-config');
+        return data.currency === 'USD' ? data : null;
+      } catch (_) { return null; }
+    })();
+    return paymentConfigPromise;
+  }
+  function loadPayPalSDK(clientId) {
+    if (window.paypal && typeof window.paypal.Buttons === 'function') return Promise.resolve(window.paypal);
+    if (!paypalSDKPromise) {
+      paypalSDKPromise = new Promise((resolve, reject) => {
+        const script = document.createElement('script');
+        const query = new URLSearchParams({ 'client-id': clientId, currency: 'USD', intent: 'capture', 'enable-funding': 'card,venmo' });
+        script.src = `https://www.paypal.com/sdk/js?${query.toString()}`; script.async = true;
+        let timer;
+        const fail = () => { clearTimeout(timer); script.remove(); paypalSDKPromise = null; reject(new Error('PayPal could not load.')); };
+        script.onload = () => { clearTimeout(timer); if (window.paypal && typeof window.paypal.Buttons === 'function') resolve(window.paypal); else fail(); };
+        script.onerror = fail; timer = setTimeout(fail, 15000); document.head.append(script);
+      });
+    }
+    return paypalSDKPromise;
+  }
+  function paymentProblem() {
+    checkoutNote('We could not complete checkout just now. Please try again, or download your proof and contact orders@veltandforge.com.');
+  }
+  async function capturePayPalOrder(actions) {
+    if (!paymentTransaction || !paymentTransaction.approved || capturePending || paymentReceipt) return;
+    let restartFunding = false;
+    capturePending = true; checkoutBusy(true); $('#checkout-methods').hidden = true;
+    checkoutNote('Confirming your payment. Please keep this order review open.');
+    try {
+      const receipt = await paymentJSON('../api/paypal/capture-order', { orderId: paymentTransaction.orderId });
+      if (receipt.status !== 'COMPLETED' || receipt.orderId !== paymentTransaction.orderId || !receipt.captureId) throw new Error('Payment has not completed.');
+      paymentReceipt = receipt;
+      $('#receipt-order-id').textContent = receipt.orderId; $('#receipt-capture-id').textContent = receipt.captureId;
+      $('#receipt-email').textContent = receipt.payerEmail || 'See your PayPal receipt';
+      $('#receipt-amount').textContent = receipt.amount ? `$${receipt.amount}` : money(paymentTransaction.configuration.pricing.total);
+      $('#receipt-artwork-note').textContent = receipt.artworkSaved ? 'Your mirrored artwork has been saved with this order. Keep a backup below.' : 'Please keep your mirrored proof backup. Email it with your Order ID to orders@veltandforge.com so we can confirm your workshop proof.';
+      $('#checkout-receipt').hidden = false; $('#checkout-retry-capture').hidden = true;
+      checkoutNote('Payment received. Your order details and mirrored proof backup are below.');
+    } catch (error) {
+      if (error.code === 'INSTRUMENT_DECLINED') {
+        // The server only exposes this code after confirming no capture exists.
+        // An ambiguous response must keep the original order locked for retry.
+        paymentTransaction = null; reviewedOrder.requestId = newPaymentRequestId();
+        $('#checkout-methods').hidden = false; $('#checkout-retry-capture').hidden = true;
+        checkoutNote('PayPal declined that funding source. Please choose a different payment method. Your proof and specification are unchanged.');
+        restartFunding = true;
+      } else {
+        checkoutNote('Payment confirmation is not available yet. Check the same payment below before trying a new order. Your proof is safe to download.');
+        $('#checkout-retry-capture').hidden = false;
+      }
+    } finally { capturePending = false; checkoutBusy(false); }
+    if (restartFunding && actions && typeof actions.restart === 'function') {
+      try { await actions.restart(); } catch (_) { paymentProblem(); }
+    }
+  }
+  async function prepareCheckout() {
+    if (checkoutPreparing || paymentTransaction || paymentReceipt) return;
+    checkoutPreparing = true;
+    try {
+      const config = await getPaymentConfig();
+      if (!config || (!config.paypalEnabled && !config.stripeEnabled)) { checkoutNote(PREVIEW_NOTE); return; }
+      const shipDate = typeof config.estimatedShipDate === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(config.estimatedShipDate) && Number.isFinite(Date.parse(config.estimatedShipDate)) && new Date(config.estimatedShipDate).toISOString().slice(0, 10) === config.estimatedShipDate && config.estimatedShipDate >= new Date().toISOString().slice(0, 10) ? config.estimatedShipDate : null;
+      $('#checkout-shipping').hidden = !shipDate;
+      $('#checkout-ship-date').textContent = shipDate || '';
+      if (config.checkoutReady === false || (config.paypalEnabled === true && config.paypalEnv === 'live' && !shipDate)) {
+        $('#checkout-methods').hidden = true;
+        checkoutNote('Please contact orders@veltandforge.com to confirm your estimated ship date. Online checkout will open once the workshop schedule is confirmed.');
+        return;
+      }
+      paymentReviewRequired = false; $('#checkout-retry').hidden = true; $('#checkout-retry').textContent = 'Try PayPal again';
+      $('#checkout-methods').hidden = false;
+      $('#stripe-checkout').hidden = config.stripeEnabled !== true;
+      checkoutNote('Secure payment in USD. Your approved artwork is confirmed with the workshop before machining.');
+      if (config.paypalEnabled === true && typeof config.paypalClientId === 'string' && config.paypalClientId && !paypalMounted) {
+        const paypal = await loadPayPalSDK(config.paypalClientId);
+        const buttons = paypal.Buttons({
+          style: { layout: 'vertical', shape: 'rect', label: 'pay' },
+          createOrder: async () => {
+            if (paymentReviewRequired) throw new Error('Please review the updated checkout details first.');
+            if (paymentTransaction) throw new Error('Please finish the current order first.');
+            if (!reviewedOrder || !reviewedOrder.mirroredSvg) throw new Error('A visible artwork proof is required.');
+            paymentTransaction = { ...reviewedOrder, orderId: null, approved: false };
+            checkoutBusy(true);
+            try {
+              const result = await paymentJSON('../api/paypal/create-order', { ...paymentTransaction.configuration, requestId: paymentTransaction.requestId, ...(!paymentTransaction.artworkTooLarge ? { mirroredSvg: paymentTransaction.mirroredSvg } : {}) });
+              if (typeof result.id !== 'string' || !/^[A-Z0-9]{10,36}$/.test(result.id)) throw new Error('Order could not be created.');
+              paymentTransaction.orderId = result.id; return result.id;
+            } catch (error) {
+              paymentTransaction = null;
+              if (error.code === 'ORDER_REVIEW_REQUIRED') {
+                // Reset only after the server confirms this order is still
+                // unapproved and uncaptured. Ambiguous retries keep their ID.
+                paymentConfigPromise = null; reviewedOrder.requestId = newPaymentRequestId(); paymentReviewRequired = true;
+                $('#checkout-methods').hidden = true; $('#checkout-retry').hidden = false; $('#checkout-retry').textContent = 'Review updated checkout';
+                checkoutNote('The workshop schedule or order details have changed. Please review your checkout details again before payment. Your mirrored proof remains available below.');
+              } else paymentProblem();
+              throw error;
+            }
+            finally { checkoutBusy(false); }
+          },
+          onApprove: async (data, actions) => {
+            if (!paymentTransaction || data.orderID !== paymentTransaction.orderId) { paymentProblem(); return; }
+            paymentTransaction.approved = true; await capturePayPalOrder(actions);
+          },
+          onCancel: () => {
+            if (paymentTransaction && paymentTransaction.approved) return;
+            paymentTransaction = null; if (reviewedOrder) reviewedOrder.requestId = newPaymentRequestId(); checkoutBusy(false); checkoutNote('Checkout cancelled. Your proof and specification are ready whenever you are.');
+          },
+          onError: () => {
+            if (paymentReviewRequired) return;
+            if (paymentTransaction && paymentTransaction.approved) { $('#checkout-retry-capture').hidden = false; return; }
+            paymentTransaction = null; checkoutBusy(false); paymentProblem();
+          }
+        });
+        $('#paypal-button-container').hidden = false;
+        await buttons.render('#paypal-button-container'); paypalMounted = true; $('#checkout-retry').hidden = true;
+      }
+    } catch (_) {
+      $('#paypal-button-container').hidden = true; $('#paypal-button-container').replaceChildren();
+      $('#checkout-retry').hidden = false;
+      checkoutNote('PayPal is taking a moment to connect. Try again below, or keep your mirrored proof and specification.');
+    } finally { checkoutPreparing = false; }
+  }
+  function downloadReviewedProof() {
+    const order = paymentTransaction || reviewedOrder;
+    if (order && order.mirroredSvg) download(new Blob([order.mirroredSvg], { type: 'image/svg+xml;charset=utf-8' }), order.filename);
+  }
+  $('#checkout-retry').addEventListener('click', () => { if (paymentReviewRequired) paymentConfigPromise = null; void prepareCheckout(); });
+  $('#checkout-retry-capture').addEventListener('click', capturePayPalOrder);
+  $('#summary-download-proof').addEventListener('click', downloadReviewedProof);
+  $('#receipt-download-proof').addEventListener('click', downloadReviewedProof);
+  $('#summary-copy-spec').addEventListener('click', async () => {
+    if (!reviewedOrder) return;
+    try {
+      if (typeof navigator === 'undefined' || !navigator.clipboard || !navigator.clipboard.writeText) throw new Error('Clipboard unavailable');
+      await navigator.clipboard.writeText(JSON.stringify((paymentTransaction || reviewedOrder).configuration, null, 2)); toast('Your specification is copied.');
+    } catch (_) { toast('Use View exact configuration JSON to select and copy your specification, or download it below.'); }
+  });
+  $('#stripe-checkout').addEventListener('click', async () => {
+    if (!reviewedOrder || paymentTransaction || paymentReceipt) return;
+    paymentTransaction = { ...reviewedOrder, provider: 'stripe', approved: false }; checkoutBusy(true);
+    try {
+      const result = await paymentJSON('../api/create-checkout', paymentTransaction.configuration);
+      if (typeof result.url !== 'string' || !/^https:\/\/checkout\.stripe\.com\//.test(result.url)) throw new Error('Checkout link unavailable.');
+      location.assign(result.url);
+    } catch (_) { paymentTransaction = null; paymentProblem(); checkoutBusy(false); }
+  });
   // Pointer capture keeps drag coherent even outside the preview. Arrow keys
   // expose the same view and light adjustment for keyboard users.
   const preview = $('#relief-canvas'); let drag = null;
@@ -327,7 +522,7 @@
   });
   $$('[data-open-summary]').forEach(button => button.addEventListener('click', openSummary)); $('#review-order').addEventListener('click', openSummary);
   $('#open-export').addEventListener('click', openExport); $('#download-svg').addEventListener('click', exportSVG); $('#download-png').addEventListener('click', exportPNG);
-  $('#download-json').addEventListener('click', () => download(new Blob([JSON.stringify(configJSON(), null, 2)], { type: 'application/json' }), `velt-forge-${state.size}mm-configuration.json`));
+  $('#download-json').addEventListener('click', () => download(new Blob([JSON.stringify((paymentTransaction || reviewedOrder || { configuration: configJSON() }).configuration, null, 2)], { type: 'application/json' }), `velt-forge-${(paymentTransaction || reviewedOrder || { configuration: { diameterMM: state.size } }).configuration.diameterMM}mm-configuration.json`));
   $$('[data-close-dialog]').forEach(button => button.addEventListener('click', () => button.closest('dialog').close()));
   $$('dialog').forEach(dialog => dialog.addEventListener('click', event => { const box = dialog.getBoundingClientRect(); if (event.target === dialog && (event.clientX < box.left || event.clientX > box.right || event.clientY < box.top || event.clientY > box.bottom)) dialog.close(); }));
   for (const key of Object.keys(DEMOS)) $('#thumb-' + key).innerHTML = DEMOS[key].replace('<svg ', '<svg aria-hidden="true" focusable="false" ');
