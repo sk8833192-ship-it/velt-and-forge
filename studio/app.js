@@ -10,7 +10,7 @@
     wood: { name: 'Hardwood Torch', minStroke: 0.55, minGap: 0.90 }
   });
   const PRICES = { 38: 69, 50: 89, 63: 109 };
-  const state = { material: 'brass', size: 50, handle: 'walnut', medium: 'ice', mode: 'die', threshold: 160, boldness: 0, invert: false, overlay: true, artwork: 'Bar Crest.svg', demo: 'crest', yaw: -0.12, pitch: 0.4, light: -1.0 };
+  const state = { material: 'brass', size: 50, handle: 'walnut', medium: 'ice', extraHead: false, mode: 'die', threshold: 160, boldness: 0, invert: false, overlay: true, artwork: 'Bar Crest.svg', demo: 'crest', yaw: -0.12, pitch: 0.4, light: -1.0 };
   const svgStart = '<svg xmlns="http://www.w3.org/2000/svg" width="600" height="600" viewBox="0 0 600 600">';
   const serif = 'font-family="Georgia,Times New Roman,serif"';
   const sans = 'font-family="Arial,Helvetica,sans-serif"';
@@ -24,7 +24,7 @@
   const renderer = new StampRenderer($('#relief-canvas'));
   const inspection = $('#inspection-canvas');
   const money = value => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(value);
-  const total = () => PRICES[state.size] + (state.material === 'steel' ? 15 : 0) + (state.handle === 'steel' ? 18 : 0);
+  const total = () => PRICES[state.size] + (state.material === 'steel' ? 15 : 0) + (state.handle === 'steel' ? 18 : 0) + (state.extraHead ? 49 : 0);
   const materialName = () => state.material === 'brass' ? 'Lead-Free Brass Option' : '304 Stainless Steel';
   const handleName = () => ({ walnut: 'Walnut Wood Handle', steel: 'Solid 304 Stainless Handle', arbor: 'Leather Arbor / Hammer Rod' })[state.handle];
   function toast(message) {
@@ -41,6 +41,7 @@
   function syncConfiguration() {
     selected('[data-material]', 'material', state.material); selected('[data-size]', 'size', state.size); selected('[data-mode]', 'mode', state.mode); selected('[data-demo]', 'demo', state.demo);
     $('#handle').value = state.handle; $('#medium').value = state.medium;
+    $('#extra-head').checked = state.extraHead;
     $('#price').innerHTML = `$${total()}<span>.00</span>`;
     $('#preview-material').textContent = state.mode === 'die' ? materialName().toUpperCase() : state.mode === 'ice' ? 'CLEAR COCKTAIL ICE · FROSTED IMPRESSION' : 'VEGETABLE-TANNED LEATHER · DEBOSS';
     $('#preview-size').textContent = `Ø ${state.size} MM · ${state.mode === 'die' ? 'MIRRORED DIE' : 'IMPRESSION'}`;
@@ -236,11 +237,11 @@
       studio: 'VELT & FORGE', schemaVersion: 1, artwork: state.artwork,
       material: { id: state.material, name: materialName(), specification: state.material === 'brass' ? 'Lead-free brass option; batch sheet published before dispatch' : '304 stainless steel' },
       diameterMM: state.size, nominalSizeInches: ({38: 1.5, 50: 2, 63: 2.5})[state.size], targetReliefDepthMinMM: 2.8, reliefDepthStatus: 'target; confirmed in workshop proof',
-      handle: { id: state.handle, name: handleName() },
+      handle: { id: state.handle, name: handleName() }, extraHead: state.extraHead,
       targetMedium: { id: state.medium, ...MEDIUMS[state.medium] },
       artworkProcessing: { threshold: state.threshold, inverted: state.invert, radialDilationMM: state.boldness, maskResolution: [N, N], pixelPitchMM: state.size / N, mirroredProductionExport: true, blackMeans: 'raised metal', whiteMeans: 'carved cavity' },
       inspection: analysis ? { score: analysis.score, thinStrokePercent: Number(analysis.strokeRiskPercent.toFixed(3)), narrowGapPercent: Number(analysis.gapRiskPercent.toFixed(3)), method: analysis.method } : null,
-      pricing: { currency: 'USD', base: PRICES[state.size], materialUpgrade: state.material === 'steel' ? 15 : 0, handleUpgrade: state.handle === 'steel' ? 18 : 0, total: total(), monthlyFees: 0 },
+      pricing: { currency: 'USD', base: PRICES[state.size], materialUpgrade: state.material === 'steel' ? 15 : 0, handleUpgrade: state.handle === 'steel' ? 18 : 0, extraHead: state.extraHead ? 49 : 0, total: total(), monthlyFees: 0 },
       fulfillment: { madeToOrder: true, shipDate: 'shown before checkout', orderSubmitted: false }
     };
   }
@@ -250,7 +251,7 @@
     const configuration = configJSON();
     $('#summary-artwork').textContent = state.artwork;
     const list = $('#summary-list'); list.replaceChildren();
-    for (const [label, value] of [['Material', materialName()], ['Diameter / relief depth', `${state.size} mm / ≥2.8 mm target`], ['Handle', handleName()], ['Target medium', MEDIUMS[state.medium].name], ['Art compensation', `+${state.boldness.toFixed(2)} mm radial · ${state.invert ? 'inverted' : 'original polarity'}`], ['Printability', `${analysis.score}/100 · ${analysis.score >= 90 ? 'workshop review' : 'details need review'}`]]) {
+    for (const [label, value] of [['Material', materialName()], ['Diameter / relief depth', `${state.size} mm / ≥2.8 mm target`], ['Handle', handleName()], ['Stamp heads', state.extraHead ? '2 custom heads · shared M8 handle (+$49)' : '1 custom head'], ['Target medium', MEDIUMS[state.medium].name], ['Art compensation', `+${state.boldness.toFixed(2)} mm radial · ${state.invert ? 'inverted' : 'original polarity'}`], ['Printability', `${analysis.score}/100 · ${analysis.score >= 90 ? 'workshop review' : 'details need review'}`]]) {
       const row = document.createElement('div'), dt = document.createElement('dt'), dd = document.createElement('dd'); dt.textContent = label; dd.textContent = value; row.append(dt, dd); list.append(row);
     }
     $('#summary-price').textContent = money(total()); $('#summary-json').textContent = JSON.stringify(configuration, null, 2); showDialog($('#summary-dialog'));
@@ -302,6 +303,7 @@
   $$('[data-material]').forEach(button => button.addEventListener('click', () => { state.material = button.dataset.material; syncConfiguration(); }));
   $$('[data-size]').forEach(button => button.addEventListener('click', () => { state.size = Number(button.dataset.size); syncConfiguration(); processArtwork(); }));
   $('#handle').addEventListener('change', event => { state.handle = event.target.value; syncConfiguration(); });
+  $('#extra-head').addEventListener('change', event => { state.extraHead = event.target.checked; syncConfiguration(); });
   $('#medium').addEventListener('change', event => { state.medium = event.target.value; if (state.medium === 'ice' || state.medium === 'leather') state.mode = state.medium; syncConfiguration(); processArtwork(); });
   $$('[data-demo]').forEach(button => button.addEventListener('click', () => loadArtwork(new Blob([DEMOS[button.dataset.demo]], { type: 'image/svg+xml' }), demoNames[button.dataset.demo], button.dataset.demo)));
   $('#upload-zone').addEventListener('click', () => $('#file-input').click());
@@ -330,12 +332,13 @@
   $$('dialog').forEach(dialog => dialog.addEventListener('click', event => { const box = dialog.getBoundingClientRect(); if (event.target === dialog && (event.clientX < box.left || event.clientX > box.right || event.clientY < box.top || event.clientY > box.bottom)) dialog.close(); }));
   for (const key of Object.keys(DEMOS)) $('#thumb-' + key).innerHTML = DEMOS[key].replace('<svg ', '<svg aria-hidden="true" focusable="false" ');
   $('#year').textContent = String(new Date().getFullYear());
-  // Apply optional hand-off query params from storefront/SEO pages (?material=steel&size=63&handle=steel&medium=leather&demo=wedding)
+  // Apply optional hand-off query params from storefront/SEO pages (?material=steel&size=63&handle=steel&medium=leather&demo=wedding&extraHead=1)
   if (typeof location !== 'undefined' && location.search) {
     const q = new URLSearchParams(location.search);
     if (['brass', 'steel'].includes(q.get('material'))) state.material = q.get('material');
     if (['38', '50', '63'].includes(q.get('size'))) state.size = Number(q.get('size'));
     if (['walnut', 'steel', 'arbor'].includes(q.get('handle'))) state.handle = q.get('handle');
+    state.extraHead = ['1', 'true'].includes(q.get('extraHead'));
     if (['ice', 'leather', 'wood'].includes(q.get('medium'))) {
       state.medium = q.get('medium');
       if (state.medium === 'leather') state.mode = 'leather';

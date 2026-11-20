@@ -14,11 +14,12 @@
     "@context": "https://schema.org",
     "@type": "Product",
     "name": "2-Inch Lead-Free Cocktail Ice Stamp",
-    "description": "A custom ice stamp in lead-free brass with a 2-inch (50.8 mm nominal) face, deep-relief engraved with your logo or monogram. Artwork is checked at its final size and a digital proof is approved before machining.",
+    "description": "A custom ice stamp in lead-free bismuth brass with a 2-inch (50.8 mm nominal) face, deep-relief engraved with your logo or monogram. Artwork is checked at its final size and a digital proof is approved before machining. Optional second interchangeable head on an M8 thread.",
     "brand": { "@type": "Brand", "name": "Velt & Forge" },
     "material": "Lead-free brass",
     "size": "2 in (50.8 mm) nominal face diameter",
     "category": "Bar tools > Ice stamps",
+    "image": "../assets/images/pdp-brass-walnut-main.jpg",
     "offers": {
       "@type": "Offer",
       "price": "89.00",
@@ -162,6 +163,14 @@
     },
     {
       "@type": "Question",
+      "name": "Can I add a second design to the same handle?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Heads screw onto the handle on an M8 brass thread, so a second custom head (a seasonal menu mark, a wedding date or a crest) is $49 instead of a second $89 stamp. Each head is checked at final size and proofed separately."
+      }
+    },
+    {
+      "@type": "Question",
       "name": "What if my stamp doesn’t match the approved proof?",
       "acceptedAnswer": {
         "@type": "Answer",
@@ -183,13 +192,15 @@
       <a class="brand" href="../index.html" aria-label="Velt and Forge home"><span class="brand-symbol" aria-hidden="true">V<span>F</span></span><span>VELT <em>&amp;</em> FORGE<small>ICE STAMPS · MAKER’S MARKS</small></span></a>
       <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="main-nav" aria-label="Open menu"><span class="bars"></span></button>
       <nav id="main-nav" class="main-nav" aria-label="Main navigation">
-        <a href="2-inch-lead-free-ice-stamp.html" aria-current="page">The 2-Inch Ice Stamp</a>
-        <a href="../guides/how-to-stamp-whiskey-ice.html">Clear-Ice Guide</a>
-        <a href="../guides/lead-free-brass-vs-c36000-ice-stamps.html">Materials Guide</a>
-        <a href="../index.html#leather">Leather</a>
-        <a class="nav-cta" data-studio-link data-src="nav" href="../studio/index.html?medium=ice&amp;material=brass&amp;size=50&amp;handle=walnut&amp;src=nav">Check My Logo — Free <span aria-hidden="true">↗</span></a>
+        <a href="../products/2-inch-lead-free-ice-stamp.html" aria-current="page">Ice Stamps</a>
+        <a href="../products/304-stainless-steel-ice-stamp.html">304 Steel</a>
+        <a href="../products/custom-deep-engraved-leather-stamp.html">Leather</a>
+        <a href="../pages/wedding-monogram-ice-stamps.html">Weddings</a>
+        <a href="../pages/custom-ice-stamps-for-cocktail-bars.html">Bars &amp; B2B</a>
+        <a href="../guides/how-to-stamp-whiskey-ice.html">Guides</a>
+        <a class="nav-cta" data-studio-link data-src="nav" href="../studio/index.html?medium=ice&amp;material=brass&amp;size=50&amp;handle=walnut&amp;extraHead=0&amp;src=nav">Check My Logo <span aria-hidden="true">↗</span></a>
       </nav>
-      <a class="header-cta" data-studio-link data-src="header" href="../studio/index.html?medium=ice&amp;material=brass&amp;size=50&amp;handle=walnut&amp;src=header">Check My Logo <span aria-hidden="true">↗</span></a>
+      <a class="header-cta" data-studio-link data-src="header" href="../studio/index.html?medium=ice&amp;material=brass&amp;size=50&amp;handle=walnut&amp;extraHead=0&amp;src=header">Check My Logo <span aria-hidden="true">↗</span></a>
     </div>
   </header>
 
@@ -270,7 +281,7 @@
         </div>
 
         <!-- BUY PANEL -->
-        <div>
+        <div id="configurator">
           <div class="notice" role="note" style="margin-bottom:16px">
             <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v5 M12 16.5v.5"/></svg>
             <span><strong>Pre-launch preview.</strong> Orders are not open yet. We will publish the material documentation for this stamp before it goes on sale. You can already check your artwork and save a configuration in the studio.</span>
@@ -320,6 +331,15 @@
               <p class="config-note">Handle construction and the packaging list will be published with production samples.</p>
             </div>
 
+            <div class="config-section">
+              <div class="config-label"><h3><span>04</span> Add a second mark</h3><span>Optional · M8 thread</span></div>
+              <div class="material-options" role="group" aria-label="Second custom head">
+                <button type="button" class="material-option selected" data-head-option="0" aria-pressed="true"><span class="head-icon">1</span><span><strong>One custom head</strong><small>Your mark on the handle you choose</small></span><span class="option-right">Included<span class="radio-mark"></span></span></button>
+                <button type="button" class="material-option" data-head-option="1" aria-pressed="false"><span class="head-icon">2</span><span><strong>+ 2nd interchangeable head</strong><small>Seasonal menu, wedding date, crest</small></span><span class="option-right">+$49<span class="radio-mark"></span></span></button>
+              </div>
+              <p class="config-note">Screws onto the same handle on an M8 brass thread, for $49 instead of a second $89 stamp. Upload the second artwork in the Studio. <a class="text-link" href="#extra-head">How it works</a></p>
+            </div>
+
             <div class="order-block">
               <div class="price-row">
                 <div><span class="price-label">Your configuration · USD</span><strong data-price aria-live="polite">$89<span>.00</span></strong></div>
@@ -361,6 +381,7 @@
               <tr><th scope="row">Artwork</th><td>Your logo, initials, or monogram; reviewed at final size</td></tr>
               <tr><th scope="row">Engraving</th><td>Deep relief; final geometry confirmed in your production proof</td></tr>
               <tr><th scope="row">Handle</th><td>Walnut (included) or solid 304 stainless (+$18)</td></tr>
+              <tr><th scope="row">Extra head</th><td>Optional second interchangeable custom head on an M8 brass thread (+$49)</td></tr>
               <tr><th scope="row">Intended use</th><td>Brief contact with plain water ice, before the drink is poured</td></tr>
               <tr><th scope="row">Approval</th><td>Digital proof approved before machining</td></tr>
               <tr><th scope="row">Accepted files</th><td>SVG, PNG, or JPG. Simple, high-contrast artwork works best; outline text in vector files</td></tr>
@@ -422,6 +443,60 @@
       </div>
     </section>
 
+    <!-- PROOF: BLURRY VS CRISP -->
+    <section class="section" id="crisp-proof" aria-labelledby="crisp-title">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow"><span class="small-rule"></span> Proof · depth and artwork together</div>
+            <h2 id="crisp-title">A blurry smudge,<br><em>or a crisp frosted mark.</em></h2>
+          </div>
+          <p>Same ice, same monogram, same pour. The difference is what happens to meltwater in the first seconds of contact, and that is decided by relief depth and artwork spacing long before the stamp meets the ice.</p>
+        </div>
+        <div class="proof-grid">
+          <figure class="proof-figure photo-card" data-reveal>
+            <span class="proof-tag l">A · Shallow, unchecked</span>
+            <span class="proof-tag r">B · Deep CNC, pre-checked</span>
+            <div class="photo-frame ratio-hero">
+              <img src="../assets/images/comparison-blurry-vs-crisp.jpg" alt="Two clear ice cubes on dark slate stamped with a VF monogram: on the left the letters are smeared with pooled meltwater and refrozen drips; on the right the letters are sharp, evenly frosted and cleanly edged" width="1400" height="1045" loading="lazy" decoding="async">
+            </div>
+            <figcaption><strong>Illustrative studio comparison, not a lab test.</strong> Left: shallow relief and hairline strokes. Right: deep relief with strokes and gaps pre-checked at final size.</figcaption>
+          </figure>
+          <div class="proof-cols">
+            <div class="proof-col is-bad" data-reveal>
+              <span class="chip bad">A · Shallow relief under 1.5 mm</span>
+              <h3>Meltwater has nowhere to go.</h3>
+              <ul>
+                <li>The recessed background sits too close to the ice, so meltwater pools between the letters instead of draining away.</li>
+                <li>Unchecked hairlines (under 0.50 mm at size) melt flat in the first second, and tight gaps (under 0.80 mm) bridge into one shape.</li>
+                <li>The puddle refreezes as drips and halos, leaving a smudge where the monogram should be.</li>
+              </ul>
+            </div>
+            <div class="proof-col is-good" data-reveal>
+              <span class="chip ok">B · CNC relief ≥ 2.8 mm + artwork pre-check</span>
+              <h3>Meltwater drains. Edges stay sharp.</h3>
+              <ul>
+                <li>Deep channels give meltwater room to run off the raised face, so the letters cut cleanly into a dry surface.</li>
+                <li>Every stroke is screened to at least 0.50 mm and every gap to 0.80 mm at the final size, before any metal is cut.</li>
+                <li>The result is an evenly frosted, sharp-edged imprint that reads across the bar and in photographs.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <dl class="spec-strip" data-reveal>
+          <div><dt>Relief depth target</dt><dd>≥ 2.8 mm<small>Measured and confirmed in your proof</small></dd></div>
+          <div><dt>Stroke screen</dt><dd>0.50 mm<small>Minimum line width at final size</small></dd></div>
+          <div><dt>Gap screen</dt><dd>0.80 mm<small>Minimum counter and spacing</small></dd></div>
+          <div><dt>When it’s checked</dt><dd>Before CNC<small>Free in the Studio, then in your proof</small></dd></div>
+        </dl>
+        <div class="btn-row">
+          <a class="btn btn-primary" data-studio-link data-src="pdp-proof" href="../studio/index.html?medium=ice&amp;src=pdp-proof">Check My Logo for Hairlines <span class="arrow" aria-hidden="true">↗</span></a>
+          <a class="btn btn-secondary" href="../guides/how-to-stamp-whiskey-ice.html">Read the clear-impression guide <span class="arrow" aria-hidden="true">→</span></a>
+        </div>
+        <p class="fine" style="margin-top:14px">Depth alone does not rescue a hairline, and a clean file still needs tempered, flat ice. The 0.50 mm / 0.80 mm values are screening guidelines; your proof confirms the final geometry.</p>
+      </div>
+    </section>
+
     <!-- PROCESS -->
     <section class="section" id="process" aria-labelledby="process-title">
       <div class="wrap">
@@ -436,6 +511,40 @@
           <li class="step"><span class="step-num">02</span><h3 style="margin-top:14px">Review your proof.</h3><p>Check the layout, dimensions, and any proposed artwork changes. Machining begins after you approve it.</p></li>
           <li class="step"><span class="step-num">03</span><h3 style="margin-top:14px">Make your mark.</h3><p>Follow the care and use guide, test on a spare cube, and find the contact time that works for your ice and design.</p><a class="text-link" href="../guides/how-to-stamp-whiskey-ice.html">Read the ice-stamping guide</a></li>
         </ol>
+      </div>
+    </section>
+
+    <!-- AOV: ONE HANDLE, MULTIPLE MARKS -->
+    <section class="section" id="extra-head" aria-labelledby="extra-head-title">
+      <div class="wrap split">
+        <figure class="art-card photo-card" data-reveal>
+          <div class="art-toolbar"><span><i class="status-dot dot-brass"></i> M8 interchangeable brass thread</span><span>+$49 per extra head</span></div>
+          <div class="photo-frame ratio-hero">
+            <img src="../assets/images/interchangeable-heads-set.jpg" alt="A turned walnut handle with a threaded M8 brass stud laid above two brass stamp heads on travertine: a round head deep-cut with an M monogram and a square head with a tapped centre hole" width="1400" height="1045" loading="lazy" decoding="async">
+          </div>
+          <figcaption class="art-caption"><em>One handle. As many marks as you need.</em><span class="photo-tag">Studio image · pre-production</span></figcaption>
+        </figure>
+        <div>
+          <div class="eyebrow"><span class="small-rule"></span> One handle, multiple marks</div>
+          <h2 id="extra-head-title">Keep the handle.<br><em>Swap the mark.</em></h2>
+          <div class="prose" style="margin-top:22px">
+            <p>Every Velt &amp; Forge head screws onto its handle on a standard M8 brass thread. Keep one turned walnut or solid 304 steel handle and add a second custom head, cut to the same relief depth and checked the same way, for <strong>$49</strong> instead of buying a second complete stamp.</p>
+          </div>
+          <div class="head-math" role="group" aria-label="Price comparison">
+            <div class="old"><span>A second full stamp</span><strong>$89</strong><small>Handle + head + box, again</small></div>
+            <div class="vs">or</div>
+            <div class="new"><span>Extra custom head</span><strong>+$49</strong><small>Same handle · save $40</small></div>
+          </div>
+          <ul class="pair-list">
+            <li><span class="n">01</span><span><strong>House crest + seasonal menu</strong><span class="d">Your logo all year, plus a winter or summer menu mark for the bar team to swap in.</span></span></li>
+            <li><span class="n">02</span><span><strong>Couple monogram + wedding date</strong><span class="d">A&amp;M for the welcome drinks, the date for the toast, and both for every anniversary after.</span></span></li>
+            <li><span class="n">03</span><span><strong>Home bar + leather maker’s mark</strong><span class="d">An ice head for the bar and a leather head for the bench. Once a head has touched leather, dyes or finishes, keep it in the workshop and never use it on ice again.</span></span></li>
+          </ul>
+          <div class="btn-row">
+            <a class="btn btn-primary" data-studio-link data-force-extra="1" data-src="pdp-extra-head" href="../studio/index.html?medium=ice&amp;material=brass&amp;size=50&amp;handle=walnut&amp;extraHead=1&amp;src=pdp-extra-head">Add a 2nd Head in the Studio, +$49 <span class="arrow" aria-hidden="true">↗</span></a>
+            <a class="btn btn-secondary" href="#configurator">Toggle it in the configurator <span class="arrow" aria-hidden="true">↑</span></a>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -478,6 +587,63 @@
           <p>Ice temperature, surface condition, artwork, and stamp material all affect the result. Practice on a spare cube before service. Do not heat the stamp with a flame, use it on flavored or acidic ice, or leave it sitting in a drink.</p>
           <p><a href="../guides/how-to-stamp-whiskey-ice.html">Read the ice-stamping guide.</a></p>
         </div>
+      </div>
+    </section>
+
+    <!-- METALLURGY SCALE -->
+    <section class="section" id="metallurgy" aria-labelledby="metallurgy-title">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow"><span class="small-rule"></span> Lead-free, measured</div>
+            <h2 id="metallurgy-title">Where our brass sits<br><em>on the scale.</em></h2>
+          </div>
+          <p>Our contact face is specified as bismuth lead-free eco-brass. This is how that specification compares with the US lead-free threshold and with leaded free-machining brass.</p>
+        </div>
+        <div class="pb-scale" data-pb-scale data-reveal>
+            <div class="pb-head">
+              <div>
+                <div class="eyebrow"><span class="small-rule"></span> Lead (Pb) by weight · alloy specification</div>
+                <h3>Lead-free metallurgy, <em>on one honest scale.</em></h3>
+              </div>
+              <div class="pb-toggle" role="group" aria-label="Chart scale">
+                <button type="button" data-pb-mode="lin" aria-pressed="true">Linear</button>
+                <button type="button" data-pb-mode="log" aria-pressed="false">Log ×10</button>
+              </div>
+            </div>
+            <ul class="pb-rows" aria-label="Typical lead content by alloy">
+              <li class="pb-row is-ours">
+                <div class="pb-label"><strong>Bismuth lead-free eco-brass</strong><small>Velt &amp; Forge target spec · optical-spectrometer reading of an alloy sample</small></div>
+                <div class="pb-track" aria-hidden="true"><span class="pb-bar" style="--lin:.055%;--log:26.8%"></span></div>
+                <div class="pb-value"><strong>~0.0022% Pb</strong><small>≈ 22 ppm</small></div>
+              </li>
+              <li class="pb-row is-limit">
+                <div class="pb-label"><strong>US NSF/ANSI 372 lead-free threshold</strong><small>Weighted-average limit for drinking-water plumbing · reference benchmark</small></div>
+                <div class="pb-track" aria-hidden="true"><span class="pb-bar" style="--lin:6.25%;--log:68%"></span></div>
+                <div class="pb-value"><strong>0.25% Pb</strong><small>2,500 ppm</small></div>
+              </li>
+              <li class="pb-row is-leaded">
+                <div class="pb-label"><strong>Free-machining C36000 brass</strong><small>Common in industrial and unlabeled machined parts · nominal range</small></div>
+                <div class="pb-track" aria-hidden="true"><span class="pb-bar" style="--lin:62.5%;--log:88%"></span><span class="pb-range" style="--lin-from:62.5%;--lin-to:92.5%;--log-from:88%;--log-to:91.4%"></span></div>
+                <div class="pb-value"><strong>2.5–3.7% Pb</strong><small>25,000–37,000 ppm</small></div>
+              </li>
+            </ul>
+            <div class="pb-axis" aria-hidden="true">
+              <span></span>
+              <div class="pb-ticks pb-ticks-lin"><span style="left:0">0</span><span style="left:25%">1%</span><span style="left:50%">2%</span><span style="left:75%">3%</span><span style="left:100%">4% Pb</span></div>
+              <div class="pb-ticks pb-ticks-log"><span style="left:0">1 ppm</span><span style="left:20%">10</span><span style="left:40%">100</span><span style="left:60%">1,000</span><span style="left:80%">10,000</span><span style="left:100%">100,000 ppm</span></div>
+              <span class="pb-axis-label">Dashed line · 0.25%</span>
+            </div>
+            <div class="pb-callout">
+              <span class="big">110×+</span>
+              <p>At ~0.0022% Pb, our target alloy sits <strong>over 110 times below</strong> the 0.25% NSF/ANSI 372 lead-free threshold, and over 1,000 times below the bottom of the C36000 range. On a linear scale our bar is barely a sliver; switch to the log view to see all three.</p>
+            </div>
+            <ul class="pb-notes">
+              <li><strong>What this is:</strong> a metallurgical alloy specification. The ~22 ppm figure comes from an optical-spectrometer reading of a supplier alloy sample, and every production batch is spectrometer-checked before dispatch. The batch report (laboratory, method, detection limit) is published before orders open.</li>
+              <li><strong>What it is not:</strong> a food-safety certification or a promise of zero lead. The 0.25% line is the US lead-free definition for drinking-water pipes, fittings and fixtures, shown as a benchmark; an ice stamp is not a plumbing product and is not NSF-certified by this comparison.</li>
+              <li><strong>C36000:</strong> nominal lead range from published Copper Development Association alloy data. It describes the alloy, not any particular seller’s product.</li>
+            </ul>
+          </div>
       </div>
     </section>
 
@@ -591,7 +757,11 @@
             </div>
             <div class="faq-item" id="faq-304">
               <h3 class="faq-q"><button type="button" id="faq-304-q" aria-expanded="false" aria-controls="faq-304-a"><span>Can I choose 304 stainless steel instead?</span><span class="plus" aria-hidden="true"></span></button></h3>
-              <div class="faq-a" id="faq-304-a" role="region" aria-labelledby="faq-304-q"><div class="faq-a-inner prose"><p>Yes—the selector above adds 304 stainless steel for US$15. It behaves differently from brass on ice, so do not expect the same contact time. A material grade alone is not a guarantee of performance or suitability for every use; its documentation is published alongside the brass documentation before orders open.</p></div></div>
+              <div class="faq-a" id="faq-304-a" role="region" aria-labelledby="faq-304-q"><div class="faq-a-inner prose"><p>Yes—the selector above adds 304 stainless steel for US$15. It behaves differently from brass on ice, so do not expect the same contact time. A material grade alone is not a guarantee of performance or suitability for every use; its documentation is published alongside the brass documentation before orders open. See the <a href="304-stainless-steel-ice-stamp.html">304 stainless steel ice stamp</a> for a full comparison.</p></div></div>
+            </div>
+            <div class="faq-item" id="faq-extra-head">
+              <h3 class="faq-q"><button type="button" id="faq-extra-head-q" aria-expanded="false" aria-controls="faq-extra-head-a"><span>Can I add a second design to the same handle?</span><span class="plus" aria-hidden="true"></span></button></h3>
+              <div class="faq-a" id="faq-extra-head-a" role="region" aria-labelledby="faq-extra-head-q"><div class="faq-a-inner prose"><p>Yes. Heads screw onto the handle on an M8 brass thread, so a second custom head (a seasonal menu mark, a wedding date or a crest) is $49 instead of a second $89 stamp. Each head is checked at final size and proofed separately.</p></div></div>
             </div>
             <div class="faq-item" id="faq-proof-mismatch">
               <h3 class="faq-q"><button type="button" id="faq-proof-mismatch-q" aria-expanded="false" aria-controls="faq-proof-mismatch-a"><span>What if my stamp doesn’t match the approved proof?</span><span class="plus" aria-hidden="true"></span></button></h3>
@@ -625,20 +795,27 @@
           <p class="footer-sign">For the final detail, and the person who notices it.</p>
         </div>
         <div class="footer-col"><h4>Shop</h4><ul>
-          <li><a href="2-inch-lead-free-ice-stamp.html">2-Inch Lead-Free Ice Stamp</a></li>
-          <li><a href="../index.html#leather">Leather maker’s marks</a></li>
+          <li><a href="../index.html#applications">All applications</a></li>
+          <li><a href="../products/2-inch-lead-free-ice-stamp.html">Lead-Free Brass Ice Stamp</a></li>
+          <li><a href="../products/304-stainless-steel-ice-stamp.html">304 Stainless Steel Ice Stamp</a></li>
+          <li><a href="../products/custom-deep-engraved-leather-stamp.html">Custom Brass Leather Stamp</a></li>
+        </ul></div>
+        <div class="footer-col"><h4>Occasions &amp; Trade</h4><ul>
+          <li><a href="../pages/wedding-monogram-ice-stamps.html">Wedding Monogram Ice Stamps</a></li>
+          <li><a href="../pages/custom-ice-stamps-for-cocktail-bars.html">Cocktail Bars &amp; Hospitality</a></li>
         </ul></div>
         <div class="footer-col"><h4>Guides</h4><ul>
-          <li><a href="../guides/how-to-stamp-whiskey-ice.html">Stamping whiskey ice</a></li>
+          <li><a href="../guides/how-to-stamp-whiskey-ice.html">How to stamp whiskey ice</a></li>
           <li><a href="../guides/lead-free-brass-vs-c36000-ice-stamps.html">Lead-free brass vs. C36000</a></li>
         </ul></div>
         <div class="footer-col"><h4>Studio</h4><ul>
-          <li><a data-studio-link data-src="footer" href="../studio/index.html?medium=ice&amp;material=brass&amp;size=50&amp;handle=walnut&amp;src=footer">Check my logo — free</a></li>
+          <li><a data-studio-link data-src="footer" href="../studio/index.html?medium=ice&amp;src=footer">Check my logo — free</a></li>
           <li><a data-studio-link data-medium="leather" data-use-config="false" data-src="footer-leather" href="../studio/index.html?medium=leather&amp;src=footer-leather">Preview a leather mark</a></li>
+          <li><a href="../studio/index.html?medium=ice&amp;size=50&amp;extraHead=1&amp;src=footer-extra-head">Add a 2nd custom head (+$49)</a></li>
         </ul></div>
       </div>
       <div class="footer-legal">
-        <p>Pre-launch prototype. No orders are taken and no payment is processed. Prices are proposed in USD and may change before launch. Material documentation will be published before the lead-free brass stamp is offered for sale. We do not describe our products as FDA approved or Prop 65 certified.</p>
+        <p>Pre-launch prototype. No orders are taken and no payment is processed; checkout opens once material documentation and production samples are published. Prices are proposed in USD and may change before launch. Your estimated ship date is shown before checkout. We do not describe our products as FDA approved or Prop 65 certified, and we do not make claims about other sellers’ products.</p>
         <span>© <span data-year>2026</span> Velt &amp; Forge</span>
       </div>
     </div>
