@@ -1,0 +1,52 @@
+/* Shared site.css and monogram.css supply storefront chrome and tool tokens. */
+.size-calc-page .intro-grid h1{font-size:clamp(40px,4.4vw,64px)}
+.size-calc-page .controls-panel label{font-size:12px;color:#625c53}
+.size-calc-page .controls-panel select,.size-calc-page input[type=number]{width:100%;border:1px solid #ccc5b8;border-radius:0;background:var(--paper);padding:12px;min-height:46px;font:inherit;margin-top:8px}
+.size-calc-page .control-section>label{display:block}
+.size-calc-page .material-label{margin-top:20px}
+.custom-fields{margin-top:18px}
+.size-calc-page [hidden]{display:none!important}
+.measurement-grid{display:grid;grid-template-columns:minmax(0,1fr) 90px;gap:12px}
+.size-calc-page input[type=range]{width:100%;accent-color:var(--brass);margin-top:16px;min-height:32px;cursor:pointer}
+.measurement-readout{display:block;font-size:12px;margin-top:12px;color:var(--brass-dark)}
+.format-options{display:grid;gap:9px}
+.format-options label{display:flex;align-items:center;gap:10px;border:1px solid var(--line);padding:12px;min-height:46px;background:var(--paper);cursor:pointer}
+.format-options label:has(input:checked){border-color:var(--brass);background:var(--panel)}
+.format-options input{accent-color:var(--brass);margin:0;width:16px;height:16px;flex-shrink:0}
+.sphere-fields{margin-top:18px}
+.calc-blueprint{background:#f3f1eb;padding:15px 22px 0}
+.calc-blueprint svg{display:block;width:100%;max-height:450px;aspect-ratio:1;color:#1c1b19}
+.calc-blueprint svg *{vector-effect:non-scaling-stroke}
+.bp-axis{stroke:#d2ccc1;stroke-width:1;stroke-dasharray:4 5}
+.bp-glass{fill:none;stroke:#544f48;stroke-width:2.5}
+.bp-ice{fill:#dfedf1;fill-opacity:.75;stroke:#537787;stroke-width:2}
+.bp-flat{fill:none;stroke:#537787;stroke-width:1.5;stroke-dasharray:4 3}
+.bp-stamp{fill:#b49157;fill-opacity:.25;stroke:#89632e;stroke-width:2}
+.bp-artwork{fill:#9a7438;fill-opacity:.18;stroke:#785522;stroke-width:1.3;stroke-dasharray:4 3}
+.bp-margin{stroke:#785522;stroke-width:2}
+.bp-scale{fill:none;stroke:#544f48;stroke-width:1.5}
+.bp-scale-label{font:3px Arial,sans-serif;fill:#544f48}
+.blueprint-key{list-style:none;display:flex;flex-wrap:wrap;gap:9px 18px;padding:15px 22px;margin:0;border-bottom:1px solid var(--line);font-size:10px;color:#625c53}
+.blueprint-key li{display:flex;align-items:center;gap:7px}
+.key-dot{display:inline-block;width:12px;height:12px;border:2px solid #544f48;border-radius:50%}
+.key-ice{background:#dfedf1;border-color:#537787;border-radius:0}
+.key-stamp{background:#e0d1b7;border-color:#89632e}
+.key-art{background:#d5bf9c;border-style:dashed;border-color:#785522}
+.result-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin:0;padding:22px}
+.result-grid>div:last-child{grid-column:1/-1}
+.result-grid dt{font-size:10px;text-transform:uppercase;letter-spacing:1px;color:#70695f;margin-bottom:9px}
+.result-grid dd{margin:0;font-size:17px;font-family:var(--serif);line-height:1.5}
+.result-grid dd.result-detail{font:12px/1.75 var(--sans);color:#625c53}
+.calc-protocol{padding:0 22px}
+.calc-dimension-note{font-size:11px;line-height:1.7;color:#625c53;padding:0 22px 18px}
+.calc-protocol h3{font-size:21px;margin-bottom:8px}
+.calc-protocol p{font-size:12px;line-height:1.8;color:#625c53}
+.size-calc-page .fit-note{margin:0 22px 16px;padding:13px 15px;line-height:1.7;border-left:2px solid #9a7438}
+.size-calc-page .action-note{padding-bottom:20px;line-height:1.7}
+.size-calc-page .tool-actions .btn[aria-disabled=true]{opacity:.6;cursor:default;background:#746e65;border-color:#746e65}
+.calc-companion{display:block;font-size:12px;margin-top:15px;color:var(--brass-dark);text-underline-offset:4px}
+.calc-summary{font-size:11px;color:#625c53;min-height:2.8em;padding:12px 22px 0}
+.size-calc-page .tool-aftercare{margin-top:50px}
+.size-calc-page input:focus-visible,.size-calc-page select:focus-visible,.size-calc-page a:focus-visible{outline:2px solid #785522;outline-offset:3px}
+@media(max-width:760px){.size-calc-page .intro-grid h1{font-size:44px}.calc-blueprint{padding-left:12px;padding-right:12px}.result-grid{gap:18px}}
+@media(max-width:380px){.result-grid{grid-template-columns:1fr}.size-calc-page .intro-grid h1{font-size:38px}.blueprint-key{gap:10px}}

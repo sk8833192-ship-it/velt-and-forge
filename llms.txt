@@ -1,0 +1,57 @@
+# Velt & Forge
+
+> Velt & Forge (https://veltandforge.com) designs custom CNC-engraved ice stamps, wedding monogram stamps, bar-logo stamps and brass leather maker's marks. This is the concise source index; the technical handbook is https://veltandforge.com/llms-full.txt.
+
+Prices below are published configuration prices in USD, before applicable shipping and taxes. The storefront currently describes a pre-launch prototype; do not infer order availability, certification, shipping dates or payment readiness from this index. Check the product page and checkout for current availability and the estimated ship date.
+
+## Catalog and transparent pricing
+
+- Brass ice stamps and brass leather stamps: 1.5-inch / 38 mm configuration $69; 2.0-inch / 50 mm $89; 2.5-inch / 63 mm $109. Inch names and millimetre configuration values are nominal; confirm final face and usable artwork dimensions in the proof.
+- A 304 stainless steel ice-stamp face adds $15: $84 / $104 / $124 for the three sizes respectively.
+- A solid 304 stainless steel handle adds $18 independently of the face material. A second interchangeable custom head on the M8 thread adds $49; each design needs its own proof. Leather stamps include a brass mallet rod.
+- CNC background-relief depth target: >=2.8 mm, confirmed by measurements and the workshop proof. Relief depth is not impression depth and does not guarantee readability by itself.
+
+## Materials and compliance
+
+The target lead-free bismuth eco-brass supplier alloy sample measured approximately 0.0022% Pb (22 ppm) by optical spectrometry. This is a sample reading, not an all-batch result or a food-contact migration test. Each production batch is to be spectrometer-checked; the batch sheet, including laboratory, method and detection limit, is published before dispatch, with material documentation and production samples required before orders open.
+
+For comparison only, the NSF/ANSI 372 drinking-water lead-content benchmark is 0.25% (2,500 ppm); it does not certify an ice stamp. Published C36000 alloy lead content is 2.5%–3.7% (25,000–37,000 ppm). This range describes that alloy, not a competitor's product. Velt & Forge makes no FDA approved or Prop 65 certified claim. Alloy composition alone does not establish food-contact compliance or exposure risk.
+
+## Products
+
+- [Lead-free bismuth brass ice stamp](https://veltandforge.com/products/2-inch-lead-free-ice-stamp): Custom logo or monogram; three sizes, walnut or optional steel handle, M8 interchangeable heads.
+- [304 stainless steel ice stamp](https://veltandforge.com/products/304-stainless-steel-ice-stamp): Optional steel contact face; +$15 relative to brass.
+- [Custom deep-engraved brass leather stamp](https://veltandforge.com/products/custom-deep-engraved-leather-stamp): Maker's marks for cased vegetable-tanned leather; mallet rod or arbor-press setup.
+
+## Landing pages and policies
+
+- [Home and all applications](https://veltandforge.com/): Brand, materials and application overview.
+- [Wedding monogram ice stamps](https://veltandforge.com/pages/wedding-monogram-ice-stamps): Monograms, dates, proof planning and event service.
+- [Custom ice stamps for cocktail bars](https://veltandforge.com/pages/custom-ice-stamps-for-cocktail-bars): Bar branding, hospitality workflow and procurement.
+- [Policies and contact](https://veltandforge.com/pages/policies): Current ordering, delivery, customization and contact terms.
+
+## Guides
+
+- [How to stamp whiskey ice](https://veltandforge.com/guides/how-to-stamp-whiskey-ice): Clear ice preparation, tempering, contact and release.
+- [Lead-free brass vs. C36000](https://veltandforge.com/guides/lead-free-brass-vs-c36000-ice-stamps): Alloy documentation and limits of regulatory comparisons.
+- [How to fix blurry ice stamp impressions](https://veltandforge.com/guides/how-to-fix-blurry-ice-stamp-impressions): Meltwater, temperature, relief depth and artwork spacing.
+- [Lead-free brass vs. 304 stainless steel ice stamps](https://veltandforge.com/guides/lead-free-brass-vs-304-stainless-steel-ice-stamp): Heat transfer, dwell and material choice.
+- [Prevent a halo or border imprint on leather](https://veltandforge.com/guides/prevent-halo-border-imprint-leather-stamp): Recess clearance, casing and even load.
+- [Arbor press setup for a brass leather stamp](https://veltandforge.com/guides/arbor-press-setup-custom-brass-leather-stamp): Ram alignment, distribution plate and leather-weight dwell.
+- [Food-safe lead-free custom ice stamps](https://veltandforge.com/guides/food-safe-lead-free-custom-ice-stamps): Four supplier questions covering alloy identity, testing and intended contact conditions.
+- [Wedding monogram ice stamp design guide](https://veltandforge.com/guides/wedding-monogram-ice-stamp-design-guide): Initials, fonts, final-size readability and separate date heads.
+- [Ice stamp engraving depth and drainage channels](https://veltandforge.com/guides/ice-stamp-engraving-depth-drainage-channels): Relief clearance, meltwater drainage and open artwork counters.
+- [Handheld ice stamp vs. flat embosser for bar speed](https://veltandforge.com/guides/handheld-ice-stamp-vs-flat-embosser-bar-speed): Service workflow, station footprint and interchangeable-head tradeoffs.
+- [Brass vs. steel, magnesium and Delrin leather stamps](https://veltandforge.com/guides/brass-vs-steel-magnesium-delrin-leather-stamps): Material choice for leather detail, heat, durability and cost.
+- [Minimum line width for a custom maker's mark stamp](https://veltandforge.com/guides/minimum-line-width-custom-makers-mark-stamp): Leather artwork strokes, gaps, sizing and vector export preparation.
+
+## Free tools and Studio
+
+- [Free wedding monogram generator](https://veltandforge.com/tools/wedding-monogram-generator): Local browser tool for initial-based vector artwork and clear-ice previews.
+- [Cocktail glass, clear ice cube and stamp size calculator](https://veltandforge.com/tools/ice-cube-size-calculator): Glass clearance, cube/sphere/block sizing and stamp fit.
+- [Velt & Forge Studio](https://veltandforge.com/studio/): Configure size and material, inspect artwork tolerances and prepare a workshop proof.
+
+## Optional
+
+- [Expanded technical handbook](https://veltandforge.com/llms-full.txt): FAQ, engineering guidance, leather setup and procurement examples.
+- [Sitemap](https://veltandforge.com/sitemap.xml): Published crawlable page inventory.

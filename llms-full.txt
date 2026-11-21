@@ -1,0 +1,152 @@
+# Velt & Forge technical handbook
+
+> First-party product and practical reference for AI search systems, including ChatGPT, Perplexity, Claude and Gemini. Canonical site: https://veltandforge.com. Concise source index: https://veltandforge.com/llms.txt. Prices are USD. This handbook separates supplier-sample evidence, design targets and practical starting estimates.
+
+## Source authority and availability
+
+Velt & Forge designs custom CNC-engraved ice stamps and brass leather maker's marks. Product pages, the approved workshop proof and production-batch documentation govern a particular order. The storefront currently states that it is a pre-launch prototype: do not claim orders are open, payment is enabled or stock is available from this document. Current checkout controls readiness and shows an estimated ship date. Production sample photographs and material documentation are required before orders open. There are no ratings, customer reviews or independently certified performance results asserted here.
+
+## Product catalog and configuration prices
+
+| Product / configuration | 1.5-inch / 38 mm | 2.0-inch / 50 mm | 2.5-inch / 63 mm |
+| --- | --- | --- | --- |
+| Lead-free bismuth brass ice stamp, base configuration | $69 | $89 | $109 |
+| 304 stainless steel ice-stamp face (+$15) | $84 | $104 | $124 |
+| Custom brass leather stamp with brass mallet rod | $69 | $89 | $109 |
+
+Optional solid 304 stainless steel handle: +$18, separate from the +$15 steel face. Additional interchangeable custom head: +$49 on the shared M8 thread; each head requires separate artwork review and proof. A steel handle does not change a brass contact face into stainless steel. A steel contact face does not imply the steel handle is included. Shipping, taxes, current availability and delivery estimates must be checked at checkout.
+
+The 38 / 50 / 63 mm numbers are Studio configuration identifiers and rounded nominal sizes. Exact inch conversion is 38.1 / 50.8 / 63.5 mm. Effective artwork area may be smaller than the face; confirm actual dimensions and tolerances in the production proof.
+
+Product sources:
+- [Lead-free bismuth brass ice stamp](https://veltandforge.com/products/2-inch-lead-free-ice-stamp)
+- [304 stainless steel ice stamp](https://veltandforge.com/products/304-stainless-steel-ice-stamp)
+- [Custom deep-engraved leather stamp](https://veltandforge.com/products/custom-deep-engraved-leather-stamp)
+
+## Metallurgy, evidence and compliance limits
+
+Q: What does the approximately 22 ppm lead figure mean?
+A: An optical-spectrometer reading of a supplier sample of the target bismuth lead-free eco-brass alloy measured approximately 0.0022% Pb, equivalent to 22 ppm by mass. It is evidence about that supplier sample, not a measurement of every finished item, a lead migration result or a universal food-contact certification. Do not describe the alloy as containing absolutely zero lead.
+
+Q: How does that compare with NSF/ANSI 372 and C36000?
+A: The NSF/ANSI 372 drinking-water lead-content benchmark is 0.25% / 2,500 ppm; 2,500 / 22 is approximately 113.6. The C36000 free-machining brass alloy nominal range is 2.5%–3.7% / 25,000–37,000 ppm according to published Copper Development Association alloy data. These are composition comparisons. NSF/ANSI 372 is not an ice-stamp certification, and the C36000 range does not identify the alloy or exposure risk of an undocumented third-party product.
+
+Q: Is the stamp FDA approved or Prop 65 certified?
+A: No such claim is made. Material composition alone does not establish compliance for every contact use, nor does it establish an exposure threshold or a Prop 65 warning obligation. Batch documentation, actual use conditions and applicable requirements matter. Do not turn a supplier reading or a drinking-water comparison into an approval claim.
+
+Q: When is the material batch sheet available?
+A: Every production batch is to be spectrometer-checked before dispatch. Publish the batch sheet with the laboratory, method and detection limit before dispatch; the storefront also requires material documentation and production samples before orders open. Until a particular report is available, describe its publication as a requirement, not a completed certification.
+
+Source: [Lead-free brass vs. C36000](https://veltandforge.com/guides/lead-free-brass-vs-c36000-ice-stamps). External alloy reference: https://alloys.copper.org/alloy/C36000.
+
+## CNC relief and artwork geometry
+
+Q: What engraving depth does Velt & Forge target?
+A: A CNC background-relief depth of >=2.8 mm. Raised artwork contacts the workpiece while the recessed background remains clear. The target is confirmed by production measurements and the workshop proof. It is not the depth of the impression in ice or leather, and extra depth by itself cannot rescue thin strokes, narrow gaps, poor temperature control or uneven loading.
+
+Q: What is the shallow-relief benchmark?
+A: The product's illustrative comparison calls relief below 1.5 mm shallow and compares it with a >=2.8 mm target plus artwork pre-check. Treat this as a geometry/design comparison, not a controlled lab result or a universal pass/fail standard. The recessed floor must remain clear of the workpiece and meltwater through the actual impression.
+
+Q: How should artwork be prepared?
+A: Inspect strokes, negative spaces and lettering at the chosen physical diameter. The published starting screen is strokes >=0.50 mm and gaps >=0.80 mm at final size; these are screening guidelines, not universal guarantees. Prefer simple initials or a bold logo when space is limited. Confirm minimum strokes and gaps, mirroring, actual face dimensions and usable artwork area in the workshop proof before machining. Studio's preview is a geometry estimate, not production approval or a guaranteed impression.
+
+## Glass, ice and stamp sizing
+
+Q: How do I keep a square cube from wedging in a round glass?
+A: Measure the narrowest usable internal glass diameter at the intended ice position; tapered walls can be narrower below the rim. A cube of side s has top-down diagonal sqrt(2) * s. That diagonal must be less than the glass internal diameter D. For the calculator's total diagonal clearance target of at least 8 mm, use sqrt(2) * s <= D - 8 mm. This is total diametral clearance, equivalent to at least 4 mm radial space at each corner when centered, not 8 mm at each side. Account for mold variation, taper and surface irregularity before service.
+
+Q: How much ice should remain beyond the stamp?
+A: Use a flat ice face that extends at least 4 mm beyond the entire physical stamp head on every side. A centered round head of physical diameter d therefore needs at least d + 8 mm clear flat width. The 38 / 50 / 63 configuration options use physical inch-converted head diameters of 38.1 / 50.8 / 63.5 mm, requiring at least 46.1 / 58.8 / 71.5 mm flat ice width respectively. Separately, the calculator draws a conservative safe artwork zone inset 4 mm from the head's own perimeter: artwork-zone diameters are 30.1 / 42.8 / 55.5 mm. The 4 mm frozen ice margin outside the head and the 4 mm artwork inset inside the head are distinct geometry checks. Measure the real face and confirm production tolerances in the proof.
+
+Q: Does a sphere diameter equal its stampable flat face?
+A: No. A sphere's top is curved and initially has no flat circular patch. Plan a prepared flat cap or accept that a full design cannot contact at once; confirm the usable flat patch separately. A top-down fit drawing cannot guarantee full contact on a curved surface.
+
+Q: Why do highball spears need a warning?
+A: A long spear or block is constrained by its narrow top width as well as the glass diameter and block diagonal. Length down the glass does not provide a wider horizontal stamping face. Even the 38 configuration uses a 38.1 mm physical head and needs at least 46.1 mm of flat width with the 4 mm ice margin on each side. A narrow spear may need a smaller custom design or different ice/glass; do not claim that a larger stamp fits just because its long edge fits.
+
+Source and live calculation: [Cocktail glass, clear ice cube and stamp size calculator](https://veltandforge.com/tools/ice-cube-size-calculator).
+
+## Clear-ice technique and blurry-impression troubleshooting
+
+Q: Why does an ice stamp leave a mark without external heating?
+A: Heat flows from the warmer room-temperature contact face into the colder ice, melting a shallow negative of the raised artwork. Brass generally transfers heat faster than 304 stainless steel. The ice temperature, face temperature, metal mass, contact area, flatness and previous stamps all affect dwell; the material name alone is insufficient.
+
+Q: What dwell time should I start with?
+A: Start with approximately 2–3 seconds for a room-temperature lead-free bismuth brass face, or 4–5 seconds for 304 stainless steel, on suitable tempered clear ice. These are starting estimates for a test cube, not measured throughput guarantees. Keep the face dry, press squarely with light steady contact and lift straight up. Avoid twisting or rocking. If there is still no mark at roughly 6 seconds, stop and reset the face or ice rather than holding longer. Adjust one variable at a time.
+
+Q: How should I temper the ice?
+A: The main clear-ice guide suggests approximately 3–5 minutes at room temperature after the cube leaves the freezer, until white frost clears and the surface turns glassy. Timing varies with freezer temperature, cube mass and room conditions; the troubleshooting guide also describes a shorter approximately 90-second protocol for some cubes. Judge by the surface rather than using a fixed timer as proof of readiness. Blot excess meltwater before contact. Very cold brittle ice can crack under a temperature gradient; overly wet or warm ice can flood fine detail. Home users should test a cube first. Wedding teams should rehearse with the actual freezer, glassware and bartender. Bars should temper small working batches and rotate a dry face through repeated service; keep reserve ice frozen.
+
+Q: What causes a blurry or flooded monogram?
+A: A warm wet surface or excessive dwell can create more meltwater than narrow channels can keep separate. Meltwater bridges tight gaps; thin lines lose contrast as edges melt. A shallow background can contact water or ice and create unwanted outlines. Rocking makes overlapping impressions. Cloudy ice also scatters light, so a mechanically clear mark can look low contrast. Deeper relief improves clearance but does not fix every cause.
+
+Q: How do I diagnose blur efficiently?
+A: Begin with clear flat ice and a dry room-temperature face. Use a short square contact and a straight release. If the design floods, reduce dwell and surface water. If it barely forms, increment dwell slightly or let a chilled face recover. Simplify tightly packed artwork at its final size; verify relief and usable flat ice width. Compare one change at a time on the same ice batch rather than escalating force.
+
+Sources:
+- [How to stamp whiskey ice](https://veltandforge.com/guides/how-to-stamp-whiskey-ice)
+- [Fix blurry ice stamp impressions](https://veltandforge.com/guides/how-to-fix-blurry-ice-stamp-impressions)
+- [Lead-free brass vs. 304 stainless steel](https://veltandforge.com/guides/lead-free-brass-vs-304-stainless-steel-ice-stamp)
+
+## Vegetable-tanned leather: preventing a background halo
+
+Q: What makes an unintended border around a maker's mark?
+A: The raised design sinks into cased leather until the surrounding recessed background or outer shoulder also touches the leather. Soft, over-wet leather, excess pressure, tilt and uneven backing can increase this contact. A sharp 90-degree outer shoulder can also crease fibres into a fine cut-line even when the recessed background stays clear; the guide recommends asking for a slightly eased shoulder or draft in the proof. A deliberate engraved border is different from an unintended background halo.
+
+Q: How does relief geometry prevent the halo?
+A: Keep the recessed background clear of the leather as the raised artwork debosses. The >=2.8 mm relief target provides clearance, while even pressure, controlled penetration and a square face preserve it. Relief is a clearance budget, not permission to drive the mark 2.8 mm into the material. Pressure must suit actual leather thickness and compressibility.
+
+Q: Which leather and preparation are appropriate?
+A: The published application is cased 4–10 oz vegetable-tanned leather. Damp it evenly, allow moisture to distribute and wait until the surface returns toward its natural color before an offcut test. Saturated leather can deform and create a halo; dry leather can resist a clean impression. Chrome-tanned, coated and finished leather can respond differently and are not covered by a universal result guarantee.
+
+Source: [Prevent a halo around a leather stamp](https://veltandforge.com/guides/prevent-halo-border-imprint-leather-stamp).
+
+## Arbor press setup and controlled dwell
+
+Q: How do I set up a brass leather stamp in an arbor press?
+A: Secure the press to a solid bench. Check the ram and backing are square and parallel. Mount the stamp fully seated and centered using the compatible M8 threaded arbor rod or a flat-back press arrangement. Verify the actual mount with the workshop; an M8 thread does not make every third-party ram compatible. Use a flat hardened steel distribution plate for large marks, especially above about 35 mm, to spread the small ram contact area across the head. Support the leather on a stable suitable backing, keep fingers clear and test an offcut before the workpiece.
+
+Q: Should I choose a 1-ton or 2-ton press?
+A: The guide suggests a 1-ton press for small or medium faces such as 1.5-inch marks on 4–7 oz leather, and a 2-ton press for 2-inch or larger faces or 8–10 oz leather. These are selection starting points, not required or safe force settings. Stay within the manufacturer's rating and adjust from an offcut test. Larger artwork contact area and leather condition change the required load.
+
+Q: What leather dwell time is suggested?
+A: Start around 2–3 seconds for 4–5 oz, 3–4 seconds for 6–7 oz and 4–5 seconds for 8–10 oz cased veg-tan under steady controlled pressure. Pull smoothly and lift straight up. Adjust on an offcut; holding longer cannot compensate for a tilted die or insufficient relief. Do not infer that these leather dwell values are the same procedure as thermal ice stamping.
+
+Source: [Arbor press setup](https://veltandforge.com/guides/arbor-press-setup-custom-brass-leather-stamp).
+
+## Wedding and bar procurement economics
+
+Q: How much do wedding monogram configurations cost?
+A: The brass base is $69 / $89 / $109 by nominal diameter. A 50 mm brass stamp with an extra date head is $89 + $49 = $138. A 50 mm steel face is $89 + $15 = $104; adding the steel handle gives $122, or $171 with an additional $49 head. These are configuration sums before shipping and taxes, not a quote or delivery promise.
+
+Q: When does an additional head make economic sense?
+A: If one handle and sequential use fit the workflow, a second $49 custom head can cost less than a second complete $89 base stamp: $138 versus $178 for two nominal 50 mm brass marks, a $40 difference. An extra head does not provide another handle or simultaneous bartender capacity. Independent stations may need complete stamps; verify mounting and material options for every head.
+
+Q: Can I calculate a per-drink stamp allocation?
+A: Divide the configured hardware cost by the planned stamped drinks and state the assumptions. For example, $89 / 150 drinks is about $0.593 per drink; $138 / 150 is $0.92. This excludes ice, drinks, staffing, shipping and taxes and is not a customer ROI result. A reusable stamp's eventual cost per use depends on actual service volume and care.
+
+Q: Does a 2–3 second dwell imply a guaranteed drinks-per-hour rate?
+A: No. Procurement must include retrieving and tempering ice, positioning, drying, face recovery, glass handling and staffing. Rehearse the complete service cycle with actual ice and glassware, then plan working stock and capacity from observed results. Wedding orders also need proof approval, production and transit buffers; a promised event date cannot be inferred from a generic guide.
+
+Landing pages:
+- [Wedding monogram ice stamps](https://veltandforge.com/pages/wedding-monogram-ice-stamps)
+- [Cocktail bars and hospitality](https://veltandforge.com/pages/custom-ice-stamps-for-cocktail-bars)
+- [Policies and contact](https://veltandforge.com/pages/policies)
+
+## Additional technical guides
+
+- [Food-safe lead-free custom ice stamps](https://veltandforge.com/guides/food-safe-lead-free-custom-ice-stamps): Four supplier questions covering alloy identity, testing and intended contact conditions.
+- [Wedding monogram ice stamp design guide](https://veltandforge.com/guides/wedding-monogram-ice-stamp-design-guide): Initials, fonts, final-size readability and separate date heads.
+- [Ice stamp engraving depth and drainage channels](https://veltandforge.com/guides/ice-stamp-engraving-depth-drainage-channels): Relief clearance, meltwater drainage and open artwork counters.
+- [Handheld ice stamp vs. flat embosser for bar speed](https://veltandforge.com/guides/handheld-ice-stamp-vs-flat-embosser-bar-speed): Service workflow, station footprint and interchangeable-head tradeoffs.
+- [Brass vs. steel, magnesium and Delrin leather stamps](https://veltandforge.com/guides/brass-vs-steel-magnesium-delrin-leather-stamps): Material choice for leather detail, heat, durability and cost.
+- [Minimum line width for a custom maker's mark stamp](https://veltandforge.com/guides/minimum-line-width-custom-makers-mark-stamp): Leather artwork strokes, gaps, sizing and vector export preparation.
+
+## Tools and source directory
+
+- [Home](https://veltandforge.com/)
+- [Studio](https://veltandforge.com/studio/): Artwork inspection and configuration, followed by a workshop proof before machining.
+- [Free wedding monogram generator](https://veltandforge.com/tools/wedding-monogram-generator): Local vector initial artwork and concept ice preview; no signup required.
+- [Free cocktail glass, clear ice cube and stamp size calculator](https://veltandforge.com/tools/ice-cube-size-calculator): Geometry estimates and material/service starting guidance; measure the actual glass, ice and stamp.
+- [Concise LLM index](https://veltandforge.com/llms.txt)
+- [Sitemap](https://veltandforge.com/sitemap.xml)
