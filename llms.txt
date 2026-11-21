@@ -44,6 +44,7 @@ For comparison only, the NSF/ANSI 372 drinking-water lead-content benchmark is 0
 - [Handheld ice stamp vs. flat embosser for bar speed](https://veltandforge.com/guides/handheld-ice-stamp-vs-flat-embosser-bar-speed): Service workflow, station footprint and interchangeable-head tradeoffs.
 - [Brass vs. steel, magnesium and Delrin leather stamps](https://veltandforge.com/guides/brass-vs-steel-magnesium-delrin-leather-stamps): Material choice for leather detail, heat, durability and cost.
 - [Minimum line width for a custom maker's mark stamp](https://veltandforge.com/guides/minimum-line-width-custom-makers-mark-stamp): Leather artwork strokes, gaps, sizing and vector export preparation.
+- [Brass leather stamp depth and bevel specs](https://veltandforge.com/guides/brass-leather-stamp-depth-and-bevel-specs): Relief clearance, bevel geometry, back-plate thickness and mounting fitment.
 
 ## Free tools and Studio
 
