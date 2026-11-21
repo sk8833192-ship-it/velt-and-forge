@@ -175,12 +175,43 @@
     for (const element of nodes) {
       if (forbidden.has(element.localName.toLowerCase())) throw new Error('Use a self-contained SVG with outlined shapes; scripts, embedded images, animation and external styles are not supported.');
       for (const attribute of [...element.attributes]) {
+        if (attribute.name === 'xmlns') {
+          if (attribute.value !== 'http://www.w3.org/2000/svg') throw new Error('Use the standard SVG namespace for self-contained vector artwork.');
+          continue; // A namespace identifier is not an external resource request.
+        }
         const value = attribute.value.trim();
         if (/^on/i.test(attribute.name) || /(?:javascript:|data:|https?:|file:|@import|expression\s*\()/i.test(value)) throw new Error('External resources and active content are not allowed. Use a self-contained SVG.');
         if ((attribute.localName === 'href' && !value.startsWith('#')) || /url\(\s*['"]?(?!#)/i.test(value)) throw new Error('The SVG must use only local shapes, fonts and colors.');
       }
     }
     return new XMLSerializer().serializeToString(doc);
+  }
+  function pendingMonogram() {
+    try {
+      const value = sessionStorage.getItem('velt_pending_monogram');
+      if (value === null) return null;
+      sessionStorage.removeItem('velt_pending_monogram');
+      const item = JSON.parse(value);
+      if (!item || typeof item.svg !== 'string' || item.svg.length > 250000 || !/^<svg(?:\s|\/?>)/.test(item.svg) || /<!|<\?/.test(item.svg)) return null;
+      if (typeof item.name !== 'string' || !item.name.trim() || item.name.length > 120 || /[<>\x00-\x1f\x7f]/.test(item.name) || ![38, 50, 63].includes(item.size) || item.medium !== 'ice') return null;
+      const doc = new DOMParser().parseFromString(item.svg, 'image/svg+xml');
+      if (doc.querySelector('parsererror') || doc.documentElement.localName !== 'svg') return null;
+      // The generator outlines every glyph. Only inert vector geometry crosses
+      // this handoff; preserve the original bytes after checking the full DOM.
+      const tags = new Set(['svg', 'g', 'path', 'circle', 'ellipse', 'rect', 'line', 'polyline', 'polygon', 'title', 'desc']);
+      const attributes = new Set(['xmlns', 'width', 'height', 'viewBox', 'x', 'y', 'x1', 'x2', 'y1', 'y2', 'cx', 'cy', 'r', 'rx', 'ry', 'd', 'points', 'fill', 'fill-rule', 'stroke', 'stroke-width', 'stroke-linecap', 'stroke-linejoin', 'stroke-miterlimit', 'stroke-dasharray', 'stroke-dashoffset', 'transform', 'vector-effect', 'opacity', 'fill-opacity', 'stroke-opacity', 'role', 'aria-label', 'aria-labelledby', 'id']);
+      const nodes = [...doc.querySelectorAll('*')];
+      if (nodes.length > 15000) return null;
+      for (const node of nodes) {
+        if (!tags.has(node.localName) || node.namespaceURI !== 'http://www.w3.org/2000/svg') return null;
+        for (const attribute of [...node.attributes]) {
+          if (!attributes.has(attribute.name)) return null;
+          if (attribute.name === 'xmlns') { if (attribute.value !== 'http://www.w3.org/2000/svg') return null; }
+          else if (/(?:url\s*\(|javascript:|data:|https?:|file:|@import|expression\s*\()/i.test(attribute.value)) return null;
+        }
+      }
+      return item;
+    } catch (_) { return null; } // Storage may be unavailable on file:// or private tabs.
   }
   async function loadArtwork(blob, name, demo = null, version = ++uploadVersion) {
     if (version !== uploadVersion) return;
@@ -211,6 +242,7 @@
       $('#artwork-name').textContent = name;
       $('#upload-status').textContent = `${name} loaded. Artwork fitted to the circular die; ${demo ? 'studio design ready' : 'your file stays on this device'}.`;
       $('#upload-status').classList.remove('error'); syncTuning(); syncConfiguration(); processArtwork();
+      return true;
     } catch (error) {
       if (version === uploadVersion) { $('#upload-status').textContent = error.message; $('#upload-status').classList.add('error'); toast(error.message); }
     } finally { URL.revokeObjectURL(url); if (version === uploadVersion) input.value = ''; }
@@ -528,8 +560,10 @@
   for (const key of Object.keys(DEMOS)) $('#thumb-' + key).innerHTML = DEMOS[key].replace('<svg ', '<svg aria-hidden="true" focusable="false" ');
   $('#year').textContent = String(new Date().getFullYear());
   // Apply optional hand-off query params from storefront/SEO pages (?material=steel&size=63&handle=steel&medium=leather&demo=wedding&extraHead=1)
+  let monogram = null, fromMonogram = false;
   if (typeof location !== 'undefined' && location.search) {
     const q = new URLSearchParams(location.search);
+    fromMonogram = q.get('fromTool') === 'monogram';
     if (['brass', 'steel'].includes(q.get('material'))) state.material = q.get('material');
     if (['38', '50', '63'].includes(q.get('size'))) state.size = Number(q.get('size'));
     if (['walnut', 'steel', 'arbor'].includes(q.get('handle'))) state.handle = q.get('handle');
@@ -542,7 +576,17 @@
     if (['crest', 'wedding', 'leather'].includes(q.get('demo'))) state.demo = q.get('demo');
     else if (state.medium === 'leather') state.demo = 'leather';
   }
+  if (fromMonogram) {
+    monogram = pendingMonogram(); state.demo = 'wedding'; state.medium = 'ice';
+    if (monogram) state.size = monogram.size;
+  }
   syncTuning(); syncConfiguration();
   window.VeltStudio = Object.freeze({ getConfiguration: configJSON, getAnalysis: () => analysis ? { score: analysis.score, strokeRiskPixels: analysis.strokeRiskPixels, gapRiskPixels: analysis.gapRiskPixels, metalPixels: analysis.metalPixels, gapPixels: analysis.gapPixels } : null });
-  loadArtwork(new Blob([DEMOS[state.demo]], { type: 'image/svg+xml' }), demoNames[state.demo], state.demo);
+  if (monogram) {
+    const version = ++uploadVersion;
+    loadArtwork(new Blob([monogram.svg], { type: 'image/svg+xml' }), monogram.name, null, version).then(loaded => {
+      // A later upload or demo selection owns the preview once it starts.
+      if (!loaded && version === uploadVersion) loadArtwork(new Blob([DEMOS.wedding], { type: 'image/svg+xml' }), demoNames.wedding, 'wedding');
+    });
+  } else loadArtwork(new Blob([DEMOS[state.demo]], { type: 'image/svg+xml' }), demoNames[state.demo], state.demo);
 })();
