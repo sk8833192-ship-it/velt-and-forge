@@ -1,5 +1,6 @@
 import { json, readJSON, priceConfiguration, RequestError, requestError } from '../../_lib/pricing.js';
 import { paypalClient, ORDER_ID, decodeSpec } from '../../_lib/paypal.js';
+import { sendOrderEmails } from '../../_lib/email.js';
 
 function verifiedPayment(order, orderId, draft) {
   if (order.id !== orderId || order.status !== 'COMPLETED' || order.purchase_units?.length !== 1) throw new Error('Order is not completed');
@@ -64,6 +65,11 @@ export async function onRequest({ request, env = {} }) {
         artworkSaved = record.artwork.saved;
       } catch { /* Capture already succeeded; buyer receives a receipt and keeps a local proof backup. */ }
     }
+    const emailDelivery = sendOrderEmails({
+      env, orderId, captureId: capture.id, amount: record.payment.amount, currency: record.payment.currency,
+      payerEmail, shippingName, shippingAddress: record.customer.shippingAddress, estimatedShipDate: record.estimatedShipDate, artworkSaved,
+      spec: { ...pricing.spec, artworkName: record.configuration?.artwork, bleedScore: record.configuration?.inspection?.score }
+    });
     if (env.ORDER_WEBHOOK_URL) {
       try {
         const url = new URL(env.ORDER_WEBHOOK_URL);
@@ -73,6 +79,7 @@ export async function onRequest({ request, env = {} }) {
         });
       } catch { /* Notifications are best effort and must not invalidate a successful payment. */ }
     }
-    return json({ status: 'COMPLETED', orderId, captureId: capture.id, amount: capture.amount.value, payerEmail, shippingName, artworkSaved });
+    const { buyerEmailSent, merchantEmailSent } = await emailDelivery;
+    return json({ status: 'COMPLETED', orderId, captureId: capture.id, amount: capture.amount.value, payerEmail, shippingName, artworkSaved, buyerEmailSent, merchantEmailSent });
   } catch (error) { return requestError(error, 'Unable to confirm PayPal payment. Please retry confirmation for this order.'); }
 }
