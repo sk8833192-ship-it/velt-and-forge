@@ -114,6 +114,23 @@ A: Start around 2–3 seconds for 4–5 oz, 3–4 seconds for 6–7 oz and 4–5
 
 Source: [Arbor press setup](https://veltandforge.com/guides/arbor-press-setup-custom-brass-leather-stamp).
 
+## Uneven impressions on large brass leather stamps
+
+Q: Why is my large brass leather stamp not taking evenly?
+A: Check five causes before increasing force: an out-of-square arbor ram, a thin brass backing plate below 6 mm that flexes, hand-mallet strike angle drift, uneven casing moisture across thick 8–10 oz vegetable-tanned leather, and a soft work surface that absorbs energy. A deep edge and faint opposite edge suggest tilt; a deep center with faint edges suggests limited rear support or backing flex. Test on an offcut from the same hide to separate tooling alignment from moisture variation.
+
+Q: How does stamp size affect force per square inch?
+A: Average pressure equals force divided by loaded area. For similar circular artwork, a 25 mm face has about 0.761 square inches, a 50 mm face 3.043 square inches and a 63 mm face 4.832 square inches. At equal force, 50 mm has 4x the area of 25 mm and 63 mm about 6.35x, so average pressure falls to one quarter or about one sixth respectively. A 2–4x area comparison depends on the size pair: 38 mm to 63 mm is about 2.75x, whereas 25 mm to 63 mm exceeds 6x. Actual raised artwork contact area and leather condition govern the load needed; these full-face calculations are illustrative.
+
+Q: What fixes uneven depth on a large custom brass leather stamp?
+A: With the ram unloaded, check alignment against a machinist's square in two directions and check parallel contact at working height. Correct mounting or shim the supported fixture as the press manufacturer permits; do not put loose shims in the moving ram. Use a flat 6–10 mm hardened steel load-spreader above the die, broadly supporting its back. Specify at least 8 mm of solid brass backing behind at least 2.8 mm CNC relief, with the finished load and supported span checked by the tooling maker. Case 8–10 oz leather evenly and place it on a stable granite slab or flat steel anvil. Seat with light pressure, then increase smoothly into a steady dwell without lifting or repositioning between stages; release once. Do not double-strike.
+
+Q: Is a 1-ton or 2-ton arbor press a guaranteed solution?
+A: These are press-selection starting points: consider a 1-ton press for smaller or less demanding marks and a 2-ton press for larger 50/63 mm faces or thick 8–10 oz hides. A rated capacity is not an instruction to apply that force. The load-spreader and brass thicknesses are design targets, not load ratings; artwork contact fraction, alloy, support, casing and tool geometry still matter. Begin with low controlled force on scrap and stay within the ratings of the complete setup. More tonnage will not correct tilt, flex or uneven moisture.
+
+Source: [Fix uneven impressions on large brass leather stamps](https://veltandforge.com/guides/fix-uneven-deep-impressions-large-brass-stamp).
+Related product: [Custom deep-engraved leather stamp](https://veltandforge.com/products/custom-deep-engraved-leather-stamp).
+
 ## Wedding and bar procurement economics
 
 Q: How much do wedding monogram configurations cost?
@@ -142,6 +159,7 @@ Landing pages:
 - [Brass vs. steel, magnesium and Delrin leather stamps](https://veltandforge.com/guides/brass-vs-steel-magnesium-delrin-leather-stamps): Material choice for leather detail, heat, durability and cost.
 - [Minimum line width for a custom maker's mark stamp](https://veltandforge.com/guides/minimum-line-width-custom-makers-mark-stamp): Leather artwork strokes, gaps, sizing and vector export preparation.
 - [Brass leather stamp depth and bevel specs](https://veltandforge.com/guides/brass-leather-stamp-depth-and-bevel-specs): Relief clearance, bevel geometry, back-plate thickness and mounting fitment.
+- [Fix uneven impressions on large brass leather stamps](https://veltandforge.com/guides/fix-uneven-deep-impressions-large-brass-stamp): Five root causes, force/area benchmarks, ram alignment, load-spreading plates and a two-stage dwell protocol.
 
 ## Tools and source directory
 

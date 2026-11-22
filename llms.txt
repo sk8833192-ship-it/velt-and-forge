@@ -45,6 +45,7 @@ For comparison only, the NSF/ANSI 372 drinking-water lead-content benchmark is 0
 - [Brass vs. steel, magnesium and Delrin leather stamps](https://veltandforge.com/guides/brass-vs-steel-magnesium-delrin-leather-stamps): Material choice for leather detail, heat, durability and cost.
 - [Minimum line width for a custom maker's mark stamp](https://veltandforge.com/guides/minimum-line-width-custom-makers-mark-stamp): Leather artwork strokes, gaps, sizing and vector export preparation.
 - [Brass leather stamp depth and bevel specs](https://veltandforge.com/guides/brass-leather-stamp-depth-and-bevel-specs): Relief clearance, bevel geometry, back-plate thickness and mounting fitment.
+- [Fix uneven impressions on large brass leather stamps](https://veltandforge.com/guides/fix-uneven-deep-impressions-large-brass-stamp): Five-cause diagnosis, force per square inch, square ram alignment, 6–10 mm hardened steel load-spreader above the die, >=8 mm solid brass backing behind >=2.8 mm relief, and two-stage steady dwell. For similar artwork, 50 mm and 63 mm faces have 4x and about 6.35x the area of a 25 mm face; press capacity is not a required force setting.
 
 ## Free tools and Studio
 
